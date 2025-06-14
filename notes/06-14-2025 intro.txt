@@ -1,0 +1,326 @@
+install cucumber(gherkin)full support exnetion on VS code.
+update settings.
+
+get cuke extension, then ->
+
+if right click on Given I am on "https://www.techglobal-training.com/",
+select: generate step definition copy
+and get this: 
+Given(/^I am on "([^"]*)"$/, (args1) => {
+	console.log(args1);
+	return true;
+});
+
+
+
+
+
+Creating a BDD Framework
+
+DEPENDENCIES:
+We'll use Cucumber - Playwright - JavaScript
+	dotenv to read global environment variables
+
+
+1. Create a new project
+	mkdir cucumber-playwright-b11
+	cd cucumber-playwright-b11
+
+2. Initialize a new Node.js project
+	npm init
+
+3. Install required NPM packages
+	npm i @cucumber/cucumber -D
+	npm i @cucumber/pretty-formatter -D
+	npm i @playwright/test -D
+	npm i dotenv -D
+
+	3.1 Install Playwright Browsers
+	npx playwright install
+
+4. Create project structure
+	-pages 				Page Object Models
+	-features 			Gherkin Feature Files
+	-steps 				(step-definitions or stepDefinitions, stepImplementations)
+	-support 			Global set ups and hooks
+
+
+5. Add other required files such as .gitignore, .env and more.
+	You may initialize a new git repo
+	git init
+
+
+6. Set Global Set ups under support folder
+	
+	1. CustomWorld.js
+		import { setWorldConstructor, World } from "@cucumber/cucumber";
+
+		class CustomWorld extends World{
+		  constructor(options) {
+		    super(options);
+
+		    // Declare fixtures which will be set later in the Hooks
+		    this.browser = null;
+		    this.context = null;
+		    this.page = null;
+
+		  }
+		}
+
+		setWorldConstructor(CustomWorld);
+
+
+	2. CucumberHooks.js
+	import { After, AfterAll, Before, BeforeAll, setDefaultTimeout } from "@cucumber/cucumber";
+	import { chromium } from '@playwright/test';
+
+	// This file runs before/after anything else in the steps folder
+	setDefaultTimeout(60000);
+
+	BeforeAll(async function() {
+	  global.browser = await chromium.launch({
+	    headless: false
+	  });
+	});
+
+	Before(async function() {
+	  this.browser = global.browser;
+	  this.context = await this.browser.newContext();
+	  this.page = await this.context.newPage();
+	});
+
+	After(async function() {
+	  await this.page.close();
+	  await this.context.close();
+	});
+
+	AfterAll(async function() {
+	  await this.browser.close();
+	});
+
+
+7. Set Cucumber Runner (We don't use Playwright Runner)
+
+	module.export = {
+	  default: {
+	    paths: [ "features/**/*.feature" ],
+	    require: [ "steps/**/*.js", "support/**/*.js" ],
+	    formatOptions: {
+	      snippetInterface: 'async-await',
+	      colorsEnabled: true
+	    },
+	    // Define all the reports to be generated
+	    format: [
+	      'html:reports/cucumber-report.html',
+	      'junit:reports/cucumber-report.xml',
+	      '@cucumber/pretty-formatter'
+	    ],
+	    dryRun: false,
+	    tags: ""
+	  }
+	}
+
+8. Run the scripts
+npx cucumber-js
+
+
+NOTE: When you use Cucumber, you cannot use Playwright Runner anymore (playwright config file cannot be used)
+
+
+
+{
+    "cucumberautocomplete.steps": [
+        "test/features/step_definitions/*.js",
+        "node_modules/qa-lib/src/step_definitions/*.js"
+    ],
+    "cucumberautocomplete.strictGherkinCompletion": true
+}
+
+
+
+
+
+
+
+ADDITIONAL NOTES
+
+TDD - Test-Driven Development
+
+	it()
+	test()
+
+
+	1. Write Test Cases - QA
+	2. Run tests (all fail)
+	3. Developer build-deploy their code - Dev
+	4. The goal is to PASS all the tests with deployments (dev code pushes)
+	5. Refactor code (QA or DEV) is any issue raised (failure happen)
+
+
+CLOSEST APPROACH
+Dev and QA trying to complete PBIs in the same sprint.
+
+
+QA follows 1 sprint behind!
+
+
+QA tests sprint-20 PBIs
+While Devs are already working on sprint-21
+
+
+BDD - Behavior-Driven Development
+This approach is inspired by TDD approach.
+They added User-Behavior to be visible while hiding the code implementation
+
+
+Gherkin Syntax
+Given 	-> used for pre-condition
+When 	-> Actions
+Then 	-> Assertions
+And 	-> used for all
+
+
+Every gherkin-feature file starts with a Feature name
+
+Feature: Login Functionality
+Feature: Search Functionality
+Feature: Cart Functionality
+Feature: Credit Card Application
+Feature: Member Portal
+
+
+
+@Smoke @FrontendTesting
+Scenario: Fronted Testing verification
+	Given I am on "https://www.techglobal-training.com/"
+	When I hover "Testing" menu item
+	And I click "Frontend Testing" option
+	Then I see "Frontend Testing" page
+	And I see 10 practice cards
+	And I see 10 project cards
+
+
+Given steps come first
+When steps are in the middle
+Then steps are always at the end
+
+
+Given user is on home page
+Given user is on landing page
+Given user is on main page
+Given user is on "" url
+Given I am on ""
+
+await page.goto('https://www.techglobal-training.com/');
+
+
+
+DDD - Data-Driven Development 
+Keyword-Driven Development (codeless?)
+Codeless tools: like codegen
+
+
+
+Verification of Software 	-> Are we building the product correctly?
+Validation of Software 		-> Are we building the right product?
+
+
+
+test('', async({ page }) => {
+	// code here
+});
+
+
+1. Write feature file and scenario
+2. Implement code for each step
+3. Run it
+
+
+
+
+@Smoke @FrontendTesting
+Scenario: Fronted Testing verification
+	Given I am on "https://www.techglobal-training.com/"
+	When I hover "Testing" menu item
+	And I click "Frontend Testing" option
+	Then I see "Frontend Testing" page
+	And I see 10 practice cards
+	And I see 10 project cards
+
+
+
+TDD approach with Playwright
+import { test, expect } from '@playwright/test';
+
+test('Fronted Testing verification', async ({ page }) => {
+
+const name = 'John';
+  await page.goto('https://www.techglobal-training.com/');
+
+  await page.locator('#dropdown-testing').hover();
+  await page.locator('#frontend-option').click();
+
+  await expect(page.getByRole('heading', { name: 'Frontend' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Testing' })).toBeVisible();
+
+  expect(await page.locator('[class^='CardGrids_CardGrids'] a').count()).toBe(10);
+  expect(await page.locator('[class^='CardGrids_projectContainer'] a').count()).toBe(10);
+});
+
+
+BDD approach with Playwright + Cucumber
+1. Write feature file
+	frontendTesting.feature
+
+	Feature: Frontend Testing Verification
+
+	@Smoke @FrontendTesting
+	Scenario: Fronted Testing verification
+		Given I am on "https://www.techglobal-training.com/"
+		When I hover "Testing" menu item
+		And I click "Frontend Testing" option
+		Then I see "Frontend Testing" page
+		And I see 10 practice cards
+		And I see 10 project cards
+
+
+		When I click on "Submit" button
+		And I click on "Contact us" link
+
+		When I click on "About" link
+		When I click on "Register" button
+
+
+		When('I click on {string} {word}', async function(elementText, tagName) {
+			await page.getByRole(tagName, { name: elementText});
+		})
+
+
+		Given I am on "https://www.apple.com/"
+
+
+2. Write step definitions
+	frontendTestingSteps.js
+
+	import { Given, When, Then } from '@cucumber/cucumber';
+	import { expect } from '@playwright/test';
+
+	let name;
+
+	Given('I am on {string}', async function ({ page }, url) {
+		await page.goto(url);
+		name = 'John';
+	})
+
+	When('I hover {string} menu item', async function ({ page }, itemName) {
+		await page.goto('https://www.techglobal-training.com/');
+
+	})
+
+
+
+Main folder structure:
+pages
+features
+steps
+support
