@@ -16,8 +16,10 @@ module.exports = {
       "junit:reports/cucumber-report.xml",
       "@cucumber/pretty-formatter",
     ],
+    /* dryRyn: true will check all my feature files and provide code-snippets 
+    for the unimplemented gherkin steps without execution */
     dryRun: false,
-    tags: "@Only",
+    tags: "",
     // tags: "", // "" run everything
   },
 };

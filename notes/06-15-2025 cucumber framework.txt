@@ -1,0 +1,47 @@
+<<<<<< what file do you start with in cucumber? >>>>>>>
+
+1. Runner -> cucumber.js (config)
+    it grabs steps, path, reports
++ create Pages (POM)
+2. Runner will visit CustomWorld class
+3. Next is cucumber hooks in CucumberHooks.js
+4. feature files one by one and 5. steps
+6. It will visit hooks in CucumberHooks.js one more time for <after> actions.
+7. generate reports
+
+
+Cucumber Framework Set up
+
+npx cucumber-js 		-> this command runs all the available tests in the defined features path in the cucumber.js
+
+cucumber.js 
+	This is your runner
+	Cucumber uses its own runner rather than playwright config runner
+
+	In this file we define:
+	Where the feature files are
+	Where the step definitions/implementations are
+	What type of reports to generate
+	Format options to generate missing step implementation
+	Which tags to run
+	DryRun (can be set to true or false to check if any implementation is missing)
+
+CucumberHooks.js
+	We created all the before (setup) and after (teardown) actions
+		Before()
+		After()
+		BeforeAll()
+		AfterAll()
+
+
+features which has all the scenarios written in gherkin syntax
+	Background: used for common steps to be shared by multiple scenarios and rerun before each
+
+
+setting up useful VSCode extension to quickly generate and track gherkin step implementation
+
+
+
+dryRun: true
+
+will check all your feature files and provide code-snippets for the un-implemented gherkin steps without execution.

@@ -13,6 +13,12 @@ class CustomWorld extends World {
     this.browser = null;
     this.context = null;
     this.page = null;
+
+    // Declare POM fixtures
+    this.basePage = null;
+    this.wikiSearchPage = null;
+    this.tgBasePage = null;
+    this.tgFrontendTestingPage = null;
   }
 }
 // setting new world constructor to be my custom constructor

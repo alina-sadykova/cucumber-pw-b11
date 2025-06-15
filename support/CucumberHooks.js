@@ -6,6 +6,10 @@ import {
   setDefaultTimeout,
 } from "@cucumber/cucumber";
 
+import { BasePage } from "../pages/BasePage.js";
+import { TGBasePage } from "../pages/tg-app-pages/TGBasePage.js";
+import { TGFrontendTestingPage } from "../pages/tg-app-pages/TGFrontendTestingPage.js";
+import { WikiSearchPage } from "../pages/WikiSearchPage.js";
 import { chromium } from "@playwright/test";
 
 // This file runs before/after anything else in the steps folder
@@ -21,6 +25,11 @@ Before(async function () {
   this.browser = global.browser;
   this.context = await this.browser.newContext();
   this.page = await this.context.newPage();
+
+  this.basePage = new BasePage(this.page);
+  this.wikiSearchPage = new WikiSearchPage(this.page);
+  this.tgBasePage = new TGBasePage(this.page);
+  this.tgFrontendTestingPage = new TGFrontendTestingPage(this.page);
 });
 // after each scenario
 After(async function () {

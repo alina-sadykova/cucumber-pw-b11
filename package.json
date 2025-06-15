@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cucumber-js",
-    "test:smoke": "npx cucumber --tags \"@Smoke\"",
-    "test:regression": "npx cucumber --tags \"@Regression\""
+    "test:smoke": "npx cucumber-js --tags \"@Smoke\"",
+    "test:regression": "npx cucumber-js --tags \"@Regression\""
   },
   "keywords": [],
   "author": "",

@@ -14,7 +14,7 @@ Feature: TechGlobal Core Verification
     And I see 10 practice cards
     And I see 10 project cards
 
-  @Regression @Only
+  @Regression
   Scenario: Fronted Testing HTML Elements verification
     And I click "HTML Elements" link
     Then I see "HTML Elements" page
@@ -23,3 +23,8 @@ Feature: TechGlobal Core Verification
   Scenario: Fronted Testing Actions verification
     And I click "Actions" link
     Then I see "Actions" page
+
+  @Regression 
+  Scenario: Fronted Testing Wait verification
+    And I click "Waits" link
+    Then I see "Waits" page
