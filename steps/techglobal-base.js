@@ -15,12 +15,18 @@ When("I click {string} header option", async function (elementText) {
 });
 
 Then(/^I see "([^"]*)" page$/, async function (pageName) {
-  await expect(
-    this.page.getByRole("heading", { name: "Frontend" })
-  ).toBeVisible();
-  await expect(
-    this.page.getByRole("heading", { name: "Testing" })
-  ).toBeVisible();
+  if (pageName === "Frontend Testing") {
+    await expect(
+      this.page.getByRole("heading", { name: "Frontend" })
+    ).toBeVisible();
+    await expect(
+      this.page.getByRole("heading", { name: "Testing" })
+    ).toBeVisible();
+  } else {
+    await expect(
+      this.page.getByRole("heading", { name: pageName })
+    ).toBeVisible();
+  }
 });
 
 Then(/^I see 10 practice cards$/, async function () {
@@ -35,6 +41,10 @@ Then(/^I see 10 project cards$/, async function () {
   ).toBe(10);
 });
 
-When("I click {string} {word}", (elementText, elementRole) => {
-  console.log(elementText, elementRole);
+/* and I click 'HTML Element' (which is {string}) link (which is {word})
+  elemtnText = {string}
+  elementText = {word}
+  await this.page.getByRole('button', { name: 'Submit' }); */
+When("I click {string} {word}", async function (elementText, elementRole) {
+  await this.page.getByRole(elementRole, { name: elementText }).click();
 });

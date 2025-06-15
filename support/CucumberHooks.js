@@ -16,13 +16,13 @@ BeforeAll(async function () {
     headless: false,
   });
 });
-
+// before each scenario
 Before(async function () {
   this.browser = global.browser;
   this.context = await this.browser.newContext();
   this.page = await this.context.newPage();
 });
-
+// after each scenario
 After(async function () {
   await this.page.close();
   await this.context.close();

@@ -1,0 +1,9 @@
+<<<<<< what file do you start with in cucumber? >>>>>>>
+
+1. Runner -> cucumber.js (config)
+    it grabs steps, path, reports
+2. Runner will visit CustomWorld class
+3. Next is cucumber hooks in CucumberHooks.js
+4. feature files one by one and 5. steps
+6. It will visit hooks in CucumberHooks.js one more time for <after> actions.
+7. generate reports
