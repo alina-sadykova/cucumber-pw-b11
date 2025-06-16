@@ -34,9 +34,9 @@ Feature: Dynamic Tables Verification
 
     @Regression
     Scenario: Test Case 03 - Validate the Add New Product modal X button
-        When I click on the “ADD PRODUCT” button
-        Then I should see the “Add New Product” modal with its heading
-        When I click on the “X” button
-        Then I should not see the “Add New Product” modal
+        When I click on the "ADD PRODUCT" button
+        Then I should see the "Add New Product" modal with its heading
+        When I click on the "X" button
+        Then I should not see the "Add New Product" modal
             
 

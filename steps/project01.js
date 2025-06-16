@@ -95,7 +95,7 @@ When(/^I click on the “ADD PRODUCT” button$/, async function () {
 });
 
 Then(
-  /^I should see the “Add New Product” modal with its heading$/,
+  /^I should see the "Add New Product" modal with its heading$/,
   async function () {
     const modalHeading = this.project01Page.modalCard.locator("h2");
     await expect(modalHeading).toHaveText("Add New Product");
@@ -106,6 +106,6 @@ When(/^I click on the “X” button$/, async function () {
   await this.project01Page.clickOnXButton();
 });
 
-Then(/^I should not see the “Add New Product” modal$/, async function () {
+Then(/^I should not see the "Add New Product" modal$/, async function () {
   await expect(this.project01Page.modalContainer).toBeHidden();
 });
