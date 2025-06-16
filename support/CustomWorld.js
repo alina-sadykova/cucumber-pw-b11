@@ -19,6 +19,7 @@ class CustomWorld extends World {
     this.wikiSearchPage = null;
     this.tgBasePage = null;
     this.tgFrontendTestingPage = null;
+    this.project01Page = null;
   }
 }
 // setting new world constructor to be my custom constructor

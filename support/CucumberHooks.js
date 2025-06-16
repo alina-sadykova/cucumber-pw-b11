@@ -7,6 +7,7 @@ import {
 } from "@cucumber/cucumber";
 
 import { BasePage } from "../pages/BasePage.js";
+import { Project01Page } from "../pages/Project01Page.js";
 import { TGBasePage } from "../pages/tg-app-pages/TGBasePage.js";
 import { TGFrontendTestingPage } from "../pages/tg-app-pages/TGFrontendTestingPage.js";
 import { WikiSearchPage } from "../pages/WikiSearchPage.js";
@@ -30,6 +31,7 @@ Before(async function () {
   this.wikiSearchPage = new WikiSearchPage(this.page);
   this.tgBasePage = new TGBasePage(this.page);
   this.tgFrontendTestingPage = new TGFrontendTestingPage(this.page);
+  this.project01Page = new Project01Page(this.page);
 });
 // after each scenario
 After(async function () {
