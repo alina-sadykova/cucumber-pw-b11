@@ -42,5 +42,7 @@ Then(/^I see 10 project cards$/, async function () {
   elementText = {word}
   await this.page.getByRole('button', { name: 'Submit' }); */
 When("I click {string} {word}", async function (elementText, elementRole) {
-  await this.page.getByRole(elementRole, { name: elementText }).click();
+  await this.page
+    .getByRole(elementRole, { name: elementText, exact: true })
+    .click();
 });

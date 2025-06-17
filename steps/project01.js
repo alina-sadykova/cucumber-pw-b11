@@ -15,15 +15,18 @@ Then("I see the {string} heading", async function (query) {
 });
 
 Then(/^I see the table with the headers below$/, async function (tableData) {
-  // convert table data from gherkin format into an array and grab the first row
-  const expectedHeaders = tableData.raw()[0];
+  // get an array of expected headers
+  const expectedHeaders = tableData.rawTable[0];
 
   // get an array of actual headers
   const actualHeaders = await this.project01Page.tableHeaders.allTextContents();
-  expect(actualHeaders.map((header) => header.trim())).toEqual(expectedHeaders);
+
+  for (let i = 0; i < actualHeaders.length; i++) {
+    expect(actualHeaders[i]).toEqual(expectedHeaders[i]);
+  }
 });
 
-Then(/^I see the table with the rows below$/, async function (tableData) {
+Then("I see the table with the rows below", async function (tableData) {
   // convert table data from gherkin format into an array
   const expectedRows = tableData.raw();
 
@@ -62,20 +65,11 @@ Then("I see the {string} modal with its heading", async function (heading) {
 });
 
 When("I see the {string} button", async function (buttonText) {
-  //   await expect(this.project01Page.modalCard).toBeVisible();
-
-  //   const xButton = this.project01Page.modalXButton;
-
-  //   const xButton = this.page.getByRole("button", {
-  //     name: "close",
-  //   });
-
-  await this.page.waitForSelector("button[aria-label='close']", {
-    state: "visible",
+  const xButton = this.page.getByRole("button", {
+    name: buttonText,
   });
-  //   await expect(xButton).toBeEnabled();
 
-  //   await expect(this.project01Page.modalXButton).toBeEnabled();
+  await expect(xButton).toBeEnabled();
 });
 
 Then("I see the {string} label", async function (labelText) {
@@ -83,27 +77,25 @@ Then("I see the {string} label", async function (labelText) {
   await expect(label).toBeVisible();
 });
 
-Then("I see the {string} input box is enabled", async function (inputLabel) {
-  const input = this.page.getByLabel(inputLabel);
-  await expect(input).toBeEnabled();
+Then("I see the corresponding input box is enabled", async function () {
+  await expect(this.project01Page.modalQuantityInput).toBeEnabled();
 });
 
 // Test Case 03
-
 When(/^I click on the “ADD PRODUCT” button$/, async function () {
   await this.project01Page.clickAddButton();
 });
 
 Then(
-  /^I should see the "Add New Product" modal with its heading$/,
-  async function () {
+  "I should see the {string} modal with its heading",
+  async function (headingText) {
     const modalHeading = this.project01Page.modalCard.locator("h2");
-    await expect(modalHeading).toHaveText("Add New Product");
+    await expect(modalHeading).toHaveText(headingText);
   }
 );
 
-When(/^I click on the “X” button$/, async function () {
-  await this.project01Page.clickOnXButton();
+When("I click on the {string} button", async function (textButton) {
+  await this.project01Page.clickOnXButton(textButton);
 });
 
 Then(/^I should not see the "Add New Product" modal$/, async function () {

@@ -10,6 +10,7 @@ import { BasePage } from "../pages/BasePage.js";
 import { Project01Page } from "../pages/Project01Page.js";
 import { TGBasePage } from "../pages/tg-app-pages/TGBasePage.js";
 import { TGFrontendTestingPage } from "../pages/tg-app-pages/TGFrontendTestingPage.js";
+import { TGLoginPage } from "../pages/tg-app-pages/TGLoginPage.js";
 import { WikiSearchPage } from "../pages/WikiSearchPage.js";
 import { chromium } from "@playwright/test";
 
@@ -32,6 +33,7 @@ Before(async function () {
   this.tgBasePage = new TGBasePage(this.page);
   this.tgFrontendTestingPage = new TGFrontendTestingPage(this.page);
   this.project01Page = new Project01Page(this.page);
+  this.tgLoginPage = new TGLoginPage(this.page);
 });
 // after each scenario
 After(async function () {

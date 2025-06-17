@@ -19,7 +19,7 @@ module.exports = {
     /* dryRyn: true will check all my feature files and provide code-snippets 
     for the unimplemented gherkin steps without execution */
     dryRun: false,
-    tags: "@DynamicTables",
+    tags: "",
     // tags: "", // "" run everything
   },
 };
