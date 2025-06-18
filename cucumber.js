@@ -2,8 +2,8 @@
 
 module.exports = {
   default: {
-    paths: ["features/**/*.feature"],
-    require: ["steps/**/*.js", "support/**/*.js"],
+    paths: ["features/**/*.feature"], // feature files
+    require: ["steps/**/*.js", "support/**/*.js"], // step definitions
     formatOptions: {
       snippetInterface: "async-await",
       colorsEnabled: true,
